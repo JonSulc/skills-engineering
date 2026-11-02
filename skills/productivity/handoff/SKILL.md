@@ -13,4 +13,4 @@ Do not duplicate content already captured in other artifacts (specs, plans, ADRs
 
 Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
 
-If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.
+If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly. Avoid unnecessary details about the current context or discussion, except what is relevant to the next session.
