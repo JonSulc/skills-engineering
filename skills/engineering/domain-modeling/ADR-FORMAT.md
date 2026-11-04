@@ -1,40 +1,67 @@
 # ADR Format
 
 ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
-
 Create the `docs/adr/` directory lazily: only when the first ADR is needed.
+Number a new one by scanning `docs/adr/` for the highest number and adding one.
 
 ## Template
 
 ```md
-# {Short title of the decision}
+# {The decision, stated as a short sentence}
 
-{1-3 sentences: what's the context, what did we decide, and why.}
+## Status
+
+{proposed | accepted | deprecated | superseded by [ADR NNNN](NNNN-slug.md)}
+
+## Context
+
+{The facts and forces that made a decision necessary. Neutral: what is true, not what to do.}
+
+## Decision
+
+{What was decided and why, in full sentences.}
+
+## Considered options
+
+- **{Alternative}**: {why it was rejected}.
+
+## Consequences
+
+{What follows from the decision, costs included: what it gives up, what it constrains, what it leaves open.}
 ```
 
-That's it. An ADR can be a single paragraph. The value is in recording *that* a decision was made and *why*, not in filling out sections.
+Sections (except status) can be dropped if they would be empty or add nothing. If one or more of them would be empty, consider whether the decision requires an ADR at all.
 
-## Optional sections
+## Writing rules
 
-Only include these when they add genuine value. Most ADRs won't need them.
+- **One decision per record.** Two decisions that happen to land together get two records.
+- **Decision says what and why, not how.** Step-by-step mechanism belongs in the code and its docstrings.
+- **Consequences include the costs** of the trade-off.
+- **Cite evidence by a tracked path** when measurements back the decision, and give the numbers that carry the argument.
+- **Length:** about 250–400 words.
 
-- **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions are revisited
-- **Considered Options**: only when the rejected alternatives are worth remembering
-- **Consequences**: only when non-obvious downstream effects need to be called out
+## Status and changes
 
-## Numbering
-
-Scan `docs/adr/` for the highest existing number and increment by one.
+- **proposed** while the decision still waits on evidence (an acceptance check, a benchmark). A proposed record may still be edited.
+- **accepted** once agreed, and once any checks it waited on have passed. Measured outcomes go into Consequences at that point.
+- **Accepted records are append-only**, except the Status line.
+- **Superseding:** a decision that replaces another gets a new record, and both ADRs get links pointing to the other.
 
 ## When to offer an ADR
 
 All three of these must be true:
 
-1. **Hard to reverse**: the cost of changing your mind later is meaningful
-2. **Surprising without context**: a future reader will look at the code and wonder "why on earth did they do it this way?"
-3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+1. **Hard to reverse**: changing your mind later costs something real.
+2. **Surprising without context**: a future reader would wonder why, or "fix" it back to the obvious path.
+3. **The result of a real trade-off**: there were genuine alternatives.
 
 If a decision is easy to reverse, skip it: you'll just reverse it. If it's not surprising, nobody will wonder why. If there was no real alternative, there's nothing to record beyond "we did the obvious thing."
+
+Skip the ADR when:
+
+- **Its only job would be to prevent a regression.** Tests do that: name the test for the property it protects, and put the reason in the docstring.
+- **It is temporary**, and a named plan or issue removes it.
+- **It refines an existing ADR.** Amend that record instead.
 
 ### What qualifies
 
